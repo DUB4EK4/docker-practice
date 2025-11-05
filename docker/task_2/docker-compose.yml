@@ -1,0 +1,28 @@
+version: '3.8' 
+
+services:
+  ubuntu:
+    image: ubuntu:latest       
+    container_name: ubuntu_container
+    tty: true                 
+    stdin_open: true
+    depends_on:
+      - db                    
+    networks:
+      - my_network             
+
+  db:
+    image: postgres:15-alpine  
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: user      
+      POSTGRES_PASSWORD: password  
+      POSTGRES_DB: testdb      
+    ports:
+      - "5432:5432"            
+    networks:
+      - my_network
+
+networks:
+  my_network:                  
+    driver: bridge
